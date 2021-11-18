@@ -1,0 +1,3 @@
+/home/klauszerbe/projects/lisp/tiny-lisp/build/CMakeFiles/rebuild_cache.dir
+/home/klauszerbe/projects/lisp/tiny-lisp/build/CMakeFiles/pico-lisp.dir
+/home/klauszerbe/projects/lisp/tiny-lisp/build/CMakeFiles/edit_cache.dir

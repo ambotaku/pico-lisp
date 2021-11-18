@@ -1,0 +1,1 @@
+/usr/bin/x86_64-linux-gnu-gcc-8 -g   CMakeFiles/pico-lisp.dir/pico-lisp.c.o  -o pico-lisp 

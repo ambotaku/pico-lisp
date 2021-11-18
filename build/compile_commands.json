@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/klauszerbe/projects/lisp/tiny-lisp/build",
+  "command": "/usr/bin/x86_64-linux-gnu-gcc-8   -g   -std=gnu11 -o CMakeFiles/pico-lisp.dir/pico-lisp.c.o   -c /home/klauszerbe/projects/lisp/tiny-lisp/pico-lisp.c",
+  "file": "/home/klauszerbe/projects/lisp/tiny-lisp/pico-lisp.c"
+}
+]
