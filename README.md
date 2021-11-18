@@ -1,5 +1,27 @@
-tiny-lisp
+pico-lisp
 =========
+
+Pico Lisp is a fork of Matthias Pirstitz tiny-lisp I found at https://github.com/matp/tiny-lisp.
+It will be a port for the Raspberry Pi Pico microcontroller, which is powerful enough for such a small lisp
+but also allows controlling lots of sensors, actors, displays etc. via 26 GPIO lines.
+
+The Raspberry Pi Pico is mostly used with a powerful (for that kind of device) MicroPython interpreter,
+but I think a Lisp (or Scheme) interpreter allows evaluation of more programming paradigms and solutions where Python is reaching some limits or gets uncomfortable at least.
+
+For a port to a microcontroller that doesn't have float arithmetics neither a file system I have to strip down tiny-lisp's following features:
+
+- Pico-Lisp will need 32 or 64-Bit integers instead of floats as numbers
+- since the Pi Pico doesn't have an operating system (neither a file system) I will look for using some dedicated flash storage possibilities for storing files.
+
+On the positive side I will try to support the whole Pi Pico SDK for accessing all Pico GPIOs and hardware protocols like i2c and SPI via Lisp.
+
+I'm just at the beginning of that fascinating road and reaching that destination will take some time. 
+
+My first commits will still running on a Linux machine - until I will add features like a substitute file system on the pico and changing the number type support to integer.
+
+I resume with the Matthias Pirstitz's original README for the tiny-lisp project. Thanks Matthias for providing such a clear, clean and tidy Lisp implementation.
+
+---------- snip ------------------------------------------------------------
 
 tiny-lisp is a small implementation of LISP, written in standard C11. It is
 intended to show how features such as macros, tail recursion and a copying
