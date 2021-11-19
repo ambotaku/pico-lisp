@@ -15,7 +15,15 @@
 #define MAP_ANONYMOUS        MAP_ANON
 #endif
 
-#define MEMORY_SIZE          131072UL
+#define MEMORY_SIZE  131072UL
+
+#ifdef LONGLONG_NUMBERS
+#define NUMBER       int64_t 
+#define NUMBER_FORMAT "%lld"   
+#else
+#define NUMBER       int32_t 
+#define NUMBER_FORMAT "%d"   
+#endif
 
 typedef struct Object Object;
 
@@ -34,7 +42,7 @@ struct Object {
   Type type;
   size_t size;
   union {
-    struct { double number; };                      // number
+    struct { NUMBER number; };                      // number
     struct { char string[sizeof (Object *[3])]; };  // string, symbol
     struct { Object *car, *cdr; };                  // cons
     struct { Object *params, *body, *env; };        // lambda, macro
@@ -265,7 +273,7 @@ Object *newObjectFrom(Object **from, GC_PARAM) {
   return object;
 }
 
-Object *newNumber(double number, GC_PARAM) {
+Object *newNumber(NUMBER number, GC_PARAM) {
   Object *object = newObject(TYPE_NUMBER, GC_ROOTS);
   object->number = number;
   return object;
@@ -569,20 +577,10 @@ Object *readNumberOrSymbol(Stream *stream, GC_PARAM) {
     ch = streamPeek(stream);
   }
 
-  // try to read a number in integer or decimal format
-  if (ch == '.' || isdigit(ch)) {
-    if (isdigit(ch))
-      ch = readWhile(stream, isdigit);
-    if (!isSymbolChar(ch))
-      return newNumber(strtol(stream->buffer + offset, NULL, 10), GC_ROOTS);
-    if (ch == '.') {
-      ch = streamGetc(stream);
-      if (isdigit(streamPeek(stream))) {
-        ch = readWhile(stream, isdigit);
-        if (!isSymbolChar(ch))
-          return newNumber(strtod(stream->buffer + offset, NULL), GC_ROOTS);
-      }
-    }
+  // try to read a (number) in integer or decimal format
+  if (isdigit(ch)) {
+    ch = readWhile(stream, isdigit);
+    return newNumber(strtol(stream->buffer + offset, NULL, 10), GC_ROOTS);
   }
 
   // non-numeric character encountered, read a symbol
@@ -663,7 +661,7 @@ void writeObject(Object *object, bool readably, FILE *file) {
   case type:                                                                 \
     fprintf(file, __VA_ARGS__);                                              \
     break
-  CASE(TYPE_NUMBER, "%g", object->number);
+  CASE(TYPE_NUMBER, NUMBER_FORMAT, object->number);
   CASE(TYPE_SYMBOL, "%s", object->string);
   CASE(TYPE_PRIMITIVE, "#<Primitive %s>", object->name);
 #undef CASE
