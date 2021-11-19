@@ -563,7 +563,7 @@ Object *readString(Stream *stream, GC_PARAM) {
 }
 
 int isSymbolChar(int ch) {
-  static const char *valid = "!#$%&*+-./:<=>?@^_~";
+  static const char *valid = "!#$%&*+-./:<=>?@^_~|";
   return isalnum(ch) || strchr(valid, ch);
 }
 
@@ -865,10 +865,16 @@ Object *name(Object **args, GC_PARAM) {                                      \
   }                                                                          \
 }
 
-DEFINE_PRIMITIVE_ARITHMETIC(primitiveAdd,      +, 0)
-DEFINE_PRIMITIVE_ARITHMETIC(primitiveSubtract, -, 0)
-DEFINE_PRIMITIVE_ARITHMETIC(primitiveMultiply, *, 1)
-DEFINE_PRIMITIVE_ARITHMETIC(primitiveDivide,   /, 1)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveAdd,         +, 0)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveSubtract,    -, 0)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveMultiply,    *, 1)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveDivide,      /, 1)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveModulo,      %, 1)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveBitAnd,      &, 1)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveBitOr,       |, 1)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveBitXor,      ^, 1)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveShiftLeft,   <<, 1)
+DEFINE_PRIMITIVE_ARITHMETIC(primitiveShiftRight,  >>, 1)
 
 #define DEFINE_PRIMITIVE_RELATIONAL(name, op)                                \
 Object *name(Object **args, GC_PARAM) {                                      \
@@ -920,6 +926,12 @@ Primitive primitives[] = {
   { "-",      1, -1, primitiveSubtract     },
   { "*",      0, -1, primitiveMultiply     },
   { "/",      1, -1, primitiveDivide       },
+  { "\045",   1, -1, primitiveModulo       }, // must escape reserved % char
+  { "&",      1, -1, primitiveBitAnd       },
+  { "|",      1, -1, primitiveBitOr        },
+  { "^",      1, -1, primitiveBitXor       },
+  { "<<",     1, -1, primitiveShiftLeft    },
+  { ">>",     1, -1, primitiveShiftRight   },
   { "=",      1, -1, primitiveEqual        },
   { "<",      1, -1, primitiveLess         },
   { "<=",     1, -1, primitiveLessEqual    },
