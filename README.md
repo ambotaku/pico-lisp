@@ -8,6 +8,9 @@ but also allows controlling lots of sensors, actors, displays etc. via 26 GPIO l
 The Raspberry Pi Pico is mostly used with a powerful (for that kind of device) MicroPython interpreter,
 but I think a Lisp (or Scheme) interpreter allows evaluation of more programming paradigms and solutions where Python is reaching some limits or gets uncomfortable at least.
 
+While familiaring with the code I came to a problem related with minilisp's memory management and garbage collection, which is using BSD's mmap() function for memory mapped I/O / paging which cannot be done with a small microcontroller like RP2040. There are just about 200kB free memory available, whis is much for a microcontroller, but maybe not enough for useful mini-lisp applications.
+
+
 For a port to a microcontroller that doesn't have float arithmetics neither a file system I have to strip down tiny-lisp's following features:
 
 - Pico-Lisp will need 32 or 64-Bit integers instead of floats as numbers
